@@ -128,6 +128,7 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                 if (config.needCamera && position == 0) {
                     showCameraAction();
                 } else {
+
                     if (config.multiSelect) {
                         viewPager.setAdapter((previewAdapter = new PreviewAdapter(getActivity(), imageList, config)));
                         previewAdapter.setListener(new OnItemClickListener() {
@@ -149,9 +150,29 @@ public class ImgSelFragment extends Fragment implements View.OnClickListener, Vi
                         viewPager.setCurrentItem(config.needCamera ? position - 1 : position);
                         viewPager.setVisibility(View.VISIBLE);
                     } else {
-                        if (callback != null) {
-                            callback.onSingleImageSelected(image.path);
+                        if (config.needCrop) {
+                            if (callback != null) {
+                                callback.onSingleImageSelected(image.path);
+                            }
+                        }else {
+                            Constant.imageList.add(image.path);
+                            viewPager.setAdapter((previewAdapter = new PreviewAdapter(getActivity(), imageList, config)));
+                            previewAdapter.setListener(new OnItemClickListener() {
+                                @Override
+                                public int onCheckedClick(int position, Image image) {
+                                    return 0;
+                                }
+
+                                @Override
+                                public void onImageClick(int position, Image image) {
+                                    Constant.imageList.remove(image.path);
+                                    hidePreview();
+                                }
+                            });
+                            viewPager.setCurrentItem(config.needCamera ? position - 1 : position);
+                            viewPager.setVisibility(View.VISIBLE);
                         }
+
                     }
                 }
             }

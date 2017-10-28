@@ -129,7 +129,9 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
                 btnConfirm.setText(String.format(getString(R.string.confirm_format), config.btnText, Constant.imageList.size(), config.maxNum));
             } else {
                 Constant.imageList.clear();
-                btnConfirm.setVisibility(View.GONE);
+                if (config.needCrop) {
+                    btnConfirm.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -138,11 +140,16 @@ public class ImgSelActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btnConfirm) {
-            if (Constant.imageList != null && !Constant.imageList.isEmpty()) {
-                exit();
+            if (config.multiSelect) {
+                if (Constant.imageList != null && !Constant.imageList.isEmpty()) {
+                    exit();
+                } else {
+                    Toast.makeText(this, getString(R.string.minnum), Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, getString(R.string.minnum), Toast.LENGTH_SHORT).show();
+                exit();
             }
+
         } else if (id == R.id.ivBack) {
             onBackPressed();
         }

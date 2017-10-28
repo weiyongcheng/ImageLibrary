@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        ImgSelConfig imgSelConfig = configureOption(false, true);
+        ImgSelConfig imgSelConfig = configureOption(false, false);
         ImgSelActivity.startActivity(this, imgSelConfig, 1);
     }
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return new ImgSelConfig.Builder(this, loader)
                 .multiSelect(false)
-                .btnText("Confirm")
+                .btnText("已选")
                 .btnTextColor(Color.BLACK)
                 .statusBarColor(Color.WHITE)
                 .backResId(R.mipmap.photo_return)
